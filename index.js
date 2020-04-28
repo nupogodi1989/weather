@@ -4,6 +4,7 @@
 
 const process = require('process')
 const querystring = require('querystring')
+const client = require('https')
 
 const apiKey = process.env.API_KEY
 
@@ -16,9 +17,10 @@ const weatherClientOptions = location => ({
   path: `/data/2.5/weather?q=${location}&appid=${apiKey}`,
 })
 
-const outputWeatherToUser = () => weatherArray.map(value => {
-  return getWeather(value).then(outputWeather)
-})
+const outputWeatherToUser = () => weatherArray.map(
+  // value => getWeather(value).then(outputWeather)
+  value => console.log(getWeather(value))
+)
 
 const getWeather = rawLocation => {
   const trimmedLocation = rawLocation.trim()
@@ -27,9 +29,25 @@ const getWeather = rawLocation => {
   return getWeatherEntryFromApi(options)
 }
 
-const getWeatherEntryFromApi() => {
-  //
+const getWeatherEntryFromApi = options => {
+  client.get(options, handleResponse)
 }
+
+const handleResponse = res => new Promise((resolve, reject) => {
+  let rawData = ''
+  res.on('data', chunk => {
+    rawData += chunk
+  })
+  res.on('end', () => {
+    try {
+      const parsedData = JSON.parse(rawData)
+      console.log(parsedData)
+      resolve(parsedData)
+    } catch (err) {
+      reject(err)
+    }
+  })
+})
 
 const outputWeather = weather => {
   process.stdout.write(weather)
