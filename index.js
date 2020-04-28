@@ -42,7 +42,6 @@ const handleResponse = res => new Promise((resolve, reject) => {
   res.on('end', () => {
     try {
       const parsedData = JSON.parse(rawData)
-      console.log(parsedData)
       resolve(parsedData)
     } catch (err) {
       reject(err)
@@ -50,8 +49,9 @@ const handleResponse = res => new Promise((resolve, reject) => {
   })
 })
 
-const outputWeather = weather => {
-  process.stdout.write(weather)
+const outputWeather = location => {
+  this.weather = `${location.name}: ${location.weather[0].description}\n`
+  process.stdout.write(this.weather)
 }
 
 outputWeatherToUser()
