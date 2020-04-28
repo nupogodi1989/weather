@@ -16,17 +16,23 @@ const weatherClientOptions = location => ({
   path: `/data/2.5/weather?q=${location}&appid=${apiKey}`,
 })
 
-const outputWeatherToUser = rawLocation => {
+const outputWeatherToUser = () => weatherArray.map(value => {
+  return getWeather(value).then(outputWeather)
+})
+
+const getWeather = rawLocation => {
   const trimmedLocation = rawLocation.trim()
   const location = querystring.escape(trimmedLocation)
   const options = weatherClientOptions(location)
-  console.log(options)
-  return options
+  return getWeatherEntryFromApi(options)
+}
+
+const getWeatherEntryFromApi() => {
+  //
 }
 
 const outputWeather = weather => {
   process.stdout.write(weather)
 }
 
-outputWeather(weatherString)
 outputWeatherToUser(weatherString)
