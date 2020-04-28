@@ -17,10 +17,7 @@ const weatherClientOptions = location => ({
   path: `/data/2.5/weather?q=${location}&appid=${apiKey}`,
 })
 
-const outputWeatherToUser = () => weatherArray.map(
-  // value => getWeather(value).then(outputWeather)
-  value => console.log(getWeather(value))
-)
+const outputWeatherToUser = () => weatherArray.map(value => getWeather(value).then(outputWeather))
 
 const getWeather = rawLocation => {
   const trimmedLocation = rawLocation.trim()
@@ -29,9 +26,13 @@ const getWeather = rawLocation => {
   return getWeatherEntryFromApi(options)
 }
 
-const getWeatherEntryFromApi = options => {
-  client.get(options, handleResponse)
-}
+const getWeatherEntryFromApi = options => new Promise((resolve, reject) => {
+  client.get(options, async response => {
+    const weatherEntry = await handleResponse(response)
+      .catch(reject)
+    resolve(weatherEntry)
+  })
+})
 
 const handleResponse = res => new Promise((resolve, reject) => {
   let rawData = ''
