@@ -54,4 +54,4 @@ const outputWeather = weather => {
   process.stdout.write(weather)
 }
 
-outputWeatherToUser(weatherString)
+outputWeatherToUser()
