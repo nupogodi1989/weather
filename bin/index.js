@@ -50,8 +50,10 @@ const handleResponse = res => new Promise((resolve, reject) => {
 })
 
 const outputWeather = location => {
-  this.weather = `${location.name}: ${location.weather[0].description}\n`
-  process.stdout.write(this.weather)
+  if (location.weather) {
+    this.weather = `${location.name}: ${location.weather[0].description}\n`
+    process.stdout.write(this.weather)
+  }
 }
 
 outputWeatherToUser()
