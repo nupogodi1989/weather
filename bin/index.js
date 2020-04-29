@@ -51,7 +51,9 @@ const handleResponse = res => new Promise((resolve, reject) => {
 
 const outputWeather = location => {
   if (location.weather) {
-    this.weather = `${location.name}: ${location.weather[0].description}\n`
+    const unixTimestamp = new Date(location.dt * 1000)
+    const formattedDate = `${unixTimestamp.getFullYear()}-${unixTimestamp.getMonth() + 1}-${unixTimestamp.getDate()} ${unixTimestamp.getHours()}:${unixTimestamp.getMinutes()}`
+    this.weather = `${location.name}: ${formattedDate} ${location.weather[0].description}\n`
     process.stdout.write(this.weather)
   }
 }
