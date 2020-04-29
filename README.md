@@ -1,12 +1,14 @@
 # Weather
 
-Simple weather cli to pull time and forcast information from the openweather api
+Simple weather cli to pull time and forcast information from the openweather api  
+Create your own api key to run this program: https://openweathermap.org/api
 
 ## Installation
 
 After cloning this repository:
 ```bash
 npm install
+export API_KEY=<your_api_key>
 ```
 
 ## Usage
